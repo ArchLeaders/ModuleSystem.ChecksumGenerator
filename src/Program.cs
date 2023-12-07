@@ -2,11 +2,14 @@
 using ModuleSystem.ChecksumGenerator.Extensions;
 using System.Reflection;
 
+string title = $"Module System Checksum Generator [Version {Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "Undefined"}]";
 Console.WriteLine($"""
-    Module System Checksum Generator [Version {Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "Undefined"}]
+    {title}
     (c) Arch Leaders. MIT License
 
     """);
+
+Console.Title = title;
 
 if (args.Length <= 0 || args[0] is "-h" or "--help") {
     Console.WriteLine("""
@@ -33,7 +36,7 @@ Console.WriteLine($"Registered output path: '{outputFile}'");
 
 Generator generator = new();
 foreach (var inputFolder in inputFolders) {
-    Console.WriteLine($"Processing: {inputFolder}");
+    Console.WriteLine($"\nProcessing: {inputFolder}");
     generator.Collect(inputFolder, inputFolder.TryGetVersion());
 }
 
