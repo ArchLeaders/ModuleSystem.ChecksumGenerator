@@ -7,6 +7,7 @@ namespace ModuleSystem.ChecksumGenerator;
 
 public class Generator
 {
+    private int _count = 0;
     private readonly List<ulong> _keys = [];
     private readonly List<ulong> _checksums = [];
 
@@ -35,12 +36,12 @@ public class Generator
 
     public void CollectFile(string file, byte[] src, string root, int version, ZstdExtension zstd)
     {
-        byte[] buffer = zstd.Decompress(src, file);
-        AddChecksum(Path.Combine(file), buffer, root, version);
-
-        if (buffer.Length <= 0) {
+        if (src.Length <= 0) {
             return;
         }
+
+        byte[] buffer = zstd.Decompress(src, file);
+        AddChecksum(Path.Combine(file), buffer, root, version);
 
         if (buffer.Length > 4 && buffer.AsSpan()[0..4].SequenceEqual("SARC"u8)) {
             SarcFile sarc = SarcFile.FromBinary(buffer);
@@ -52,6 +53,8 @@ public class Generator
 
     public void AddChecksum(string file, byte[] buffer, string root, int version)
     {
+        Console.Write($"\r{++_count}");
+        
         string path = Path.GetRelativePath(root, file).Replace('\\', '/');
         ulong key = xxHash64.ComputeHash(path);
         ulong checksum = xxHash64.ComputeHash(buffer);
@@ -60,7 +63,11 @@ public class Generator
 
         // If the key exists with a different
         // value add a version specific entry
-        if ((index = _keys.IndexOf(key)) >= 0 && _checksums[index] != checksum) {
+        if ((index = _keys.IndexOf(key)) >= 0) {
+            if (_checksums[index] == checksum) {
+                return;
+            }
+
             key = xxHash64.ComputeHash(path += $"#{version}");
         }
 
