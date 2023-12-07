@@ -9,7 +9,7 @@ ChecksumGenerator.exe <path> [-o|--output OUTPUT]
 ```
 
 - **Path:** Bar (`|`) separated list of game paths (for multiple game versions) [Required]
-- **Output:** The output folder for the generated checksum binaries (default `./output`) [Optional]
+- **Output:** The output file (default `ChecksumMap.bin`) [Optional]
 
 ### In-app help message
 
