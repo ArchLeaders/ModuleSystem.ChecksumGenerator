@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ModuleSystem.ChecksumGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "\"D:\\Games\\Emulation\\RomFS\\Totk\\1.0.0|D:\\Games\\Emulation\\RomFS\\Totk\\1.1.0|D:\\Games\\Emulation\\RomFS\\Totk\\1.1.1|D:\\Games\\Emulation\\RomFS\\Totk\\1.1.2|D:\\Games\\Emulation\\RomFS\\Totk\\1.2.0|D:\\Games\\Emulation\\RomFS\\Totk\\1.2.1\" -o D:\\bin\\Checksums\\Map.bin"
+    }
+  }
+}
