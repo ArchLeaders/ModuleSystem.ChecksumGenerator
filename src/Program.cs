@@ -29,7 +29,7 @@ if (inputFolders.Count <= 0) {
 }
 
 
-Flags flags = Flags.Parse(args[2..]);
+Flags flags = Flags.Parse(args[1..]);
 
 string outputFile = flags.Get("ChecksumMap.bin", "o", "output");
 Console.WriteLine($"Registered output path: '{outputFile}'");
@@ -40,6 +40,10 @@ foreach (var inputFolder in inputFolders) {
     generator.Collect(inputFolder, inputFolder.TryGetVersion());
 }
 
-Directory.CreateDirectory(Path.GetDirectoryName(outputFile) ?? string.Empty);
+string? dir = Path.GetDirectoryName(outputFile);
+if (!string.IsNullOrEmpty(dir)) {
+    Directory.CreateDirectory(dir);
+}
+
 using FileStream fs = File.Create(outputFile);
 generator.Write(fs);

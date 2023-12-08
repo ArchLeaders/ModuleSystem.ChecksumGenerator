@@ -53,8 +53,6 @@ public class Generator
 
     public void AddChecksum(string file, byte[] buffer, string root, int version)
     {
-        Console.Write($"\r{++_count}");
-        
         string path = Path.GetRelativePath(root, file).Replace('\\', '/');
         ulong key = xxHash64.ComputeHash(path);
         ulong checksum = xxHash64.ComputeHash(buffer);
@@ -71,6 +69,7 @@ public class Generator
             key = xxHash64.ComputeHash(path += $"#{version}");
         }
 
+        Console.Write($"\r{++_count}");
         _keys.Add(key);
         _checksums.Add(checksum);
     }
